@@ -1,4 +1,4 @@
-# borland31-3d
+# ms-dos-borland31-3d
 
 Set of projects for Borland 3.1 for MS-DOS.
 
