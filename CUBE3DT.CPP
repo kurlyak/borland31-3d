@@ -2,7 +2,6 @@
 //      Ed Kurlyak 2021 Perspective Texturemapping
 //======================================================================================
 
-
 #include <math.h>
 #include <stdio.h>
 #include <conio.h>
