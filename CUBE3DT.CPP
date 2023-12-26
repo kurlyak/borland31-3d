@@ -1,6 +1,8 @@
 //======================================================================================
-//      Ed Kurlyak 2021 Perspective Texturemapping
+//	Ed Kurlyak 2021 Perspective Correct Texturemapping
+//	BORLAND C++ 3.1 Source Code
 //======================================================================================
+
 
 #include <math.h>
 #include <stdio.h>

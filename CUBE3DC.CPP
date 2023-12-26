@@ -1,6 +1,8 @@
-//==========================================================================
-//	Ed Kurlyak 2023 Software Rendering
-//==========================================================================
+//======================================================================================
+//	Ed Kurlyak 2021 Software Rendering
+//	BORLAND C++ 3.1 Source Code
+//======================================================================================
+
 
 #include <math.h>
 #include <stdio.h>
@@ -55,8 +57,10 @@ int back_lpitch = 320;
 unsigned int nViewWidth = 320;
 unsigned int nViewHeight = 200;
 
-unsigned char nVertCount = 24;
+unsigned char nVertCount = 8;
 unsigned char nIndexCount = 12;
+
+enum { A, B, C, D, E, F, G, H };
 
 void DrawCube ();
 vector3 Mat4x4_Vect3_Mul(matrix4x4 mat1, vector3 vec1);
@@ -66,47 +70,50 @@ void Draw_Color_Triangle(vector3 v1,
 		  vector3 v3, int color);
 void Draw_Color_Poly(int y1, int y2, int color);
 
+/*
+	front side cube 	back side cube
+	C - D                   G - H
+	|   |                   |   |
+	A - B                   E - F
+*/
+
+vector3 vert_buff[8] = {
+	-5.0f,  -5.0f, -5.0f, // A
+	 5.0f,  -5.0f, -5.0f, // B
+	-5.0f,   5.0f, -5.0f, // C
+	 5.0f,   5.0f, -5.0f, // D
+
+	-5.0f,  -5.0f,  5.0f, // E
+	 5.0f,  -5.0f,  5.0f, // F
+	-5.0f,   5.0f,  5.0f, // G
+	 5.0f,   5.0f,  5.0f};// H
 
 vector3 vert_buff_transformed[24];
 
-vector3 vert_buff[24] = {-5.000000,-5.000000,-5.000000,
-		-5.000000,-5.000000,5.000000,
-		5.000000,-5.000000,5.000000,
-		5.000000,-5.000000,-5.000000,
-		-5.000000,5.000000,-5.000000,
-		5.000000,5.000000,-5.000000,
-		5.000000,5.000000,5.000000,
-		-5.000000,5.000000,5.000000,
-		-5.000000,-5.000000,-5.000000,
-		5.000000,-5.000000,-5.000000,
-		5.000000,5.000000,-5.000000,
-		-5.000000,5.000000,-5.000000,
-		5.000000,-5.000000,-5.000000,
-		5.000000,-5.000000,5.000000,
-		5.000000,5.000000,5.000000,
-		5.000000,5.000000,-5.000000,
-		5.000000,-5.000000,5.000000,
-		-5.000000,-5.000000,5.000000,
-		-5.000000,5.000000,5.000000,
-		5.000000,5.000000,5.000000,
-		-5.000000,-5.000000,5.000000,
-		-5.000000,-5.000000,-5.000000,
-		-5.000000,5.000000,-5.000000,
-		-5.000000,5.000000,5.000000 };
+unsigned char index_buff[36] = {
+	//front face	
+	A, C, D,
+	A, D, B,
+	
+	//left face
+	E, G, C,
+	E, C, A,
 
-unsigned int index_buff[36] = {
-		0,2,1, // 1 triangle
-		2,0,3,		// 2 triangle
-		4,6,5,		// 3 triangle
-		6,4,7,		// 4 triangle
-		8,10,9,		// 5 triangle
-		10,8,11,	// 6 triangle
-		12,14,13,	// 7 triangle
-		14,12,15,	// 8 triangle
-		16,18,17,	// 9 triangle
-		18,16,19,	// 10 triangle
-		20,22,21,	// 11 triangle
-		22,20,23};	// 12 triangle
+	//back face
+	G, E, F,
+	G, F, H,
+
+	//right face
+	B, D, H,
+	B, H, F,
+
+	//top face
+	C, G, H,
+	C, H, D,
+
+	//bottom face
+	E, A, B,
+	E, B, F};
 
 vector3 Mat4x4_Vect3_Mul(vector3 vec1, matrix4x4 mat1)
 {
