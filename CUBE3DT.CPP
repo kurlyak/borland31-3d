@@ -192,7 +192,7 @@ void Load_BMP()
 	FILE *fp;
 
 	//texture size 64x64 pixels, 8 bit color depth
-	fp = fopen("c:\\borlandc\\my\\texture.bmp","rb");
+	fp = fopen("d:\\borlandc\\my\\texture.bmp","rb");
 	if(fp==NULL) printf("Error Open File");
 
 	BITMAPFILEHEADER bfh;
@@ -494,7 +494,6 @@ void Draw_Textured_Triangle(vector3 v1, tex_coord2 t1,
 		dvdyr = (viz3 - viz1) / dyr;
 		dzdyr = (iz3 - iz1) / dyr;
 
-
 		xr = x1;
 		ur = uiz1;
 		vr = viz1;
@@ -547,15 +546,11 @@ void Draw_Textured_Poly(int y1, int y2)
 	for (int yi = y1; yi<y2; yi++)
 	{
 
-		ui = ul;
-		vi = vl;
-		zi = zl;
-
 		if ((dx = (xr - xl))>0)
 		{
-			du = (ur - ul)/dx;
-			dv = (vr - vl)/dx;
-			dz = (zr - zl)/dx;
+			du = (ur - ul)/(xr - xl);
+			dv = (vr - vl)/(xr - xl);
+			dz = (zr - zl)/(xr - xl);
 		}
 		else
 		{
@@ -563,6 +558,13 @@ void Draw_Textured_Poly(int y1, int y2)
 			dv = (vr - vl);
 			dz = (zr - zl);
 		}
+
+		int x1 = (int)xl;
+		float itx = xl - x1;
+
+		ui = ul + itx * du;
+		vi = vl + itx * dv;
+		zi = zl + itx * dz;
 
 		for (int xi=(int)xl; xi<(int)xr; xi++)
 		{
